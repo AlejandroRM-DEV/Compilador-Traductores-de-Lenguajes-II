@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1454177950 source:c:\users\alesito\documents\programacion\c++\analizadorlexico\main.cpp
+	<iostream>
+	<fstream>
+	"Lexico.h"
+
+1454179077 c:\users\alesito\documents\programacion\c++\analizadorlexico\lexico.h
+	<iostream>
+	<fstream>
+	<algorithm>
+
+1454174391 c:\users\alesito\documents\programacion\c++\analizadorlexico\lexico.cpp
+	"Lexico.h"
+
