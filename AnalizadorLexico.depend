@@ -4,10 +4,9 @@
 	<fstream>
 	"Lexico.h"
 
-1454179077 c:\users\alesito\documents\programacion\c++\analizadorlexico\lexico.h
+1454215664 c:\users\alesito\documents\programacion\c++\analizadorlexico\lexico.h
 	<iostream>
 	<fstream>
-	<algorithm>
 
 1454174391 c:\users\alesito\documents\programacion\c++\analizadorlexico\lexico.cpp
 	"Lexico.h"
