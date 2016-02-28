@@ -1,11 +1,4 @@
-int base=100;
-int altura=10;
-
-if(cadena=="Cadena cualquiera !$%&/()=" )
-	area = base * altura;
-else 
-	x = base / altura;
-
-()+-* / > >=<<====!=!2.1
-	
-$
+a = ();
+b = (());
+c = ((()));
+d = (((())));

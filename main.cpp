@@ -1,21 +1,21 @@
 #include <iostream>
 #include <fstream>
-#include "Lexico.h"
+#include "Sintactico.h"
 
 using namespace std;
 
 int main() {
-    Lexico lex;
+    Sintactico sin;
     ofstream salida;
 
-    while( !lex.fin() ) {
-        lex.sigSimbolo();
-    }
+    sin.analiza();
 
     salida.open( "salida.txt" );
-    if( !lex.hayError() ) {
+    if( !sin.hayError() ) {
+        cout << "Aceptado" << endl;
         salida << 1;
     } else {
+        cout << "Rechazado" << endl;
         salida << 0;
     }
     salida.close();
