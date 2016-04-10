@@ -1,0 +1,19 @@
+# Grammar for Python
+
+unidad_traduccion: single_input+
+
+single_input: NEWLINE | stmt 
+
+stmt: simple_stmt | compound_stmt
+
+compound_stmt: if_stmt | while_stmt 
+if_stmt: 'if' expr_stmt ':' suite ['else' ':' suite]
+while_stmt: 'while' expr_stmt ':' suite
+
+suite: NEWLINE INDENT stmt+ DEDENT
+
+simple_stmt: expr_stmt NEWLINE | print_stmt NEWLINE
+
+print_stmt: 'print' ( expr_stmt )
+
+expr_stmt: 

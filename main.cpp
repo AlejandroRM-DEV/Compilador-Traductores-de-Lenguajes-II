@@ -8,13 +8,15 @@ int main() {
     Sintactico sin;
     ofstream salida;
 
-    sin.analiza();
+    UnidadTraduccion* nodo = sin.analiza();
 
     salida.open( "salida.txt" );
     if( !sin.hayError() ) {
+        cout << nodo->toString() << endl;
         cout << "Aceptado" << endl;
-        salida << 1;
+        salida << nodo->toString();
     } else {
+        cout << nodo->toString() << endl;
         cout << "Rechazado" << endl;
         salida << 0;
     }

@@ -1,31 +1,56 @@
 # depslib dependency file v1.0
-1456671176 source:c:\users\alesito\documents\programacion\c++\analizadorlexico\main.cpp
-	<iostream>
-	<fstream>
-	"Lexico.h"
-
-1456685304 c:\users\alesito\documents\programacion\c++\analizadorlexico\lexico.h
-	<iostream>
-	<fstream>
-
-1454174391 c:\users\alesito\documents\programacion\c++\analizadorlexico\lexico.cpp
-	"Lexico.h"
-
-1455582601 c:\users\alesito\documents\programacion\c++\analizadorlexico\sintactico.h
-	"Lexico.h"
-
-1456695767 source:c:\users\alesito\documents\programacion\c++\analizadorlexico_2\main.cpp
+1460177975 source:c:\users\alesito\documents\programacion\c++\proyecto_tdlii\main.cpp
 	<iostream>
 	<fstream>
 	"Sintactico.h"
 
-1456696262 c:\users\alesito\documents\programacion\c++\analizadorlexico_2\lexico.h
+1460184591 c:\users\alesito\documents\programacion\c++\proyecto_tdlii\sintactico.h
+	"Lexico.h"
+	"Clases.h"
+
+1460173187 c:\users\alesito\documents\programacion\c++\proyecto_tdlii\lexico.h
 	<iostream>
 	<fstream>
 
-1455897039 source:c:\users\alesito\documents\programacion\c++\analizadorlexico_2\lexico.cpp
+1458096433 c:\users\alesito\documents\programacion\c++\proyecto_tdlii\clases.h
+	<iostream>
+	<sstream>
+	<stack>
+
+1460261924 source:c:\users\alesito\documents\programacion\c++\proyecto_tdlii_2\main.cpp
+	<iostream>
+	<fstream>
+	"Sintactico.h"
+
+1460262036 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_2\sintactico.h
 	"Lexico.h"
 
-1456695958 c:\users\alesito\documents\programacion\c++\analizadorlexico_2\sintactico.h
+1460262000 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_2\lexico.h
+	<iostream>
+	<fstream>
+	<stack>
+
+1458096433 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_2\clases.h
+	<iostream>
+	<sstream>
+	<stack>
+
+1460283265 source:c:\users\alesito\documents\programacion\c++\proyecto_tdlii_3\main.cpp
+	<iostream>
+	<fstream>
+	"Sintactico.h"
+
+1460314405 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_3\sintactico.h
 	"Lexico.h"
+	"Clases.h"
+
+1460282497 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_3\lexico.h
+	<iostream>
+	<fstream>
+	<stack>
+
+1460284133 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_3\clases.h
+	<vector>
+	<iostream>
+	<sstream>
 
