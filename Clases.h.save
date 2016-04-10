@@ -118,7 +118,7 @@ public:
 
     string toString() {
         stringstream ss;
-        ss << "<EXPRESION value=\"&&\">" << endl;
+        ss << "<EXPRESION value=\"&amp;&amp;\">" << endl;
         if( izquierda != nullptr ) {
             ss << izquierda->toString( );
         }
@@ -483,6 +483,31 @@ public:
     virtual string toString() = 0;
 };
 
+class Else: public Proposicion {
+public:
+    vector<Nodo*> cuerpo;
+
+    Else( ) {
+    }
+
+    ~Else() {
+        for( Nodo* nodo : cuerpo ) {
+            delete nodo;
+        }
+    }
+
+    string toString() {
+        stringstream ss;
+
+        ss << "<OTRO>" << endl;
+        for( Nodo* n: cuerpo ) {
+            ss << n->toString();
+        }
+        ss << "</OTRO>" << endl;
+        return ss.str();
+    }
+};
+
 class If: public Proposicion {
 public:
     Expresion* exp;
@@ -515,31 +540,6 @@ public:
            ss << proElse->toString( );
         }
         ss << "</SI>" << endl;
-        return ss.str();
-    }
-};
-
-class Else: public Proposicion {
-public:
-    vector<Nodo*> cuerpo;
-
-    Else( ) {
-    }
-
-    ~Else() {
-        for( Nodo* nodo : cuerpo ) {
-            delete nodo;
-        }
-    }
-
-    string toString() {
-        stringstream ss;
-
-        ss << "<OTRO>" << endl;
-        for( Nodo* n: cuerpo ) {
-            ss << n->toString();
-        }
-        ss << "</OTRO>" << endl;
         return ss.str();
     }
 };
@@ -596,6 +596,7 @@ class While: public Proposicion {
 public:
     Expresion* exp;
     Nodo* proposicion;
+    Else* proElse;
 
     While() {
         exp = nullptr;
@@ -612,6 +613,9 @@ public:
         ss << "<MIENTRAS>" << endl;
         ss << exp->toString();
         ss << proposicion->toString( );
+        if( proElse != nullptr ) {
+           ss << proElse->toString( );
+        }
         ss << "</MIENTRAS>" << endl;
         return ss.str();
     }

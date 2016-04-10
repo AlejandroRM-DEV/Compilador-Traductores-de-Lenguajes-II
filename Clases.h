@@ -596,15 +596,20 @@ class While: public Proposicion {
 public:
     Expresion* exp;
     Nodo* proposicion;
+    Else* proElse;
 
     While() {
         exp = nullptr;
         proposicion = nullptr;
+        proElse = nullptr;
     }
 
     ~While() {
         delete exp;
         delete proposicion;
+        if( proElse != nullptr ) {
+            delete proElse;
+        }
     }
 
     string toString() {
@@ -612,6 +617,9 @@ public:
         ss << "<MIENTRAS>" << endl;
         ss << exp->toString();
         ss << proposicion->toString( );
+        if( proElse != nullptr ) {
+           ss << proElse->toString( );
+        }
         ss << "</MIENTRAS>" << endl;
         return ss.str();
     }

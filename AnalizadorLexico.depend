@@ -35,12 +35,12 @@
 	<sstream>
 	<stack>
 
-1460283265 source:c:\users\alesito\documents\programacion\c++\proyecto_tdlii_3\main.cpp
+1460316428 source:c:\users\alesito\documents\programacion\c++\proyecto_tdlii_3\main.cpp
 	<iostream>
 	<fstream>
 	"Sintactico.h"
 
-1460315273 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_3\sintactico.h
+1460316596 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_3\sintactico.h
 	"Lexico.h"
 	"Clases.h"
 
@@ -49,7 +49,7 @@
 	<fstream>
 	<stack>
 
-1460315258 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_3\clases.h
+1460316570 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_3\clases.h
 	<vector>
 	<iostream>
 	<sstream>
