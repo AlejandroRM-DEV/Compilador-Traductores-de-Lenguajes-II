@@ -55,7 +55,6 @@ L
 </SI>
 </BLOQUE>
 <OTRO>
-<BLOQUE>
 <ASIGNACION>
 l
 <REAL>2.18</REAL>
@@ -78,7 +77,6 @@ l
 </MULT>
 </EXPRESION>
 </IMPRIME>
-</BLOQUE>
 </OTRO>
 </SI>
 <MIENTRAS>

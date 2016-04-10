@@ -40,7 +40,7 @@
 	<fstream>
 	"Sintactico.h"
 
-1460314405 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_3\sintactico.h
+1460315273 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_3\sintactico.h
 	"Lexico.h"
 	"Clases.h"
 
@@ -49,7 +49,7 @@
 	<fstream>
 	<stack>
 
-1460284133 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_3\clases.h
+1460315258 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_3\clases.h
 	<vector>
 	<iostream>
 	<sstream>

@@ -15,21 +15,6 @@ public:
     virtual string toString() = 0;
 };
 
-class Tipo: public Nodo {
-public:
-    Tipo( string simbolo ) {
-        this->simbolo = simbolo;
-    }
-
-    ~Tipo() {}
-
-    string toString() {
-        stringstream ss;
-        ss << "<TIPO>" << simbolo << "</TIPO>" << endl;
-        return ss.str();
-    }
-};
-
 class Expresion: public Nodo {
 public:
     Expresion* izquierda;
@@ -432,7 +417,7 @@ public:
         stringstream ss;
 
         ss << "<ASIGNACION>" << endl;
-        ss << id->toString();
+        ss << id->simbolo << endl;
 
         if( expresion != nullptr ) {
             ss << expresion->toString( );
@@ -502,7 +487,7 @@ class If: public Proposicion {
 public:
     Expresion* exp;
     Nodo* proIf;
-    Nodo* proElse;
+    Else* proElse;
 
     If() {
         exp = nullptr;
@@ -527,11 +512,34 @@ public:
         ss << proIf->toString();
 
         if( proElse != nullptr ) {
-            ss << "<OTRO>" << endl;
-            ss << proElse->toString( );
-            ss << "</OTRO>" << endl;
+           ss << proElse->toString( );
         }
         ss << "</SI>" << endl;
+        return ss.str();
+    }
+};
+
+class Else: public Proposicion {
+public:
+    vector<Nodo*> cuerpo;
+
+    Else( ) {
+    }
+
+    ~Else() {
+        for( Nodo* nodo : cuerpo ) {
+            delete nodo;
+        }
+    }
+
+    string toString() {
+        stringstream ss;
+
+        ss << "<OTRO>" << endl;
+        for( Nodo* n: cuerpo ) {
+            ss << n->toString();
+        }
+        ss << "</OTRO>" << endl;
         return ss.str();
     }
 };
@@ -576,7 +584,9 @@ public:
     string toString() {
         stringstream ss;
         ss << "<IMPRIME>" << endl;
+        ss << "<EXPRESION>" << endl;
         ss << exp->toString();
+        ss << "</EXPRESION>" << endl;
         ss << "</IMPRIME>" << endl;
         return ss.str();
     }

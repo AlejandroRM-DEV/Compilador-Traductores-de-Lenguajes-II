@@ -45,7 +45,7 @@ public:
     }
 
     UnidadTraduccion*  analiza() {
-        log("analiza");
+        log( "analiza" );
         lex.sigSimbolo();
         UnidadTraduccion* nodo = unidad_traduccion();
         comprueba( FIN_ENTRADA );
@@ -53,7 +53,7 @@ public:
     }
 
     UnidadTraduccion* unidad_traduccion() {
-        log("unidad_traduccion");
+        log( "unidad_traduccion" );
         UnidadTraduccion* ut = new UnidadTraduccion();
 
         Nodo* p = single_input();
@@ -65,7 +65,7 @@ public:
         return ut;
     }
     void unidad_traduccion_prima( UnidadTraduccion* ut ) {
-        log("unidad_traduccion_prima");
+        log( "unidad_traduccion_prima" );
         if( error ) return;
 
         if( lex.dameTipo() != FIN_ENTRADA ) {
@@ -78,7 +78,7 @@ public:
     }
 
     Nodo* single_input() {
-        log("single_input");
+        log( "single_input" );
         Nodo* p = nullptr;
         if( error ) return nullptr;
         if( lex.dameTipo() == NUEVA_LINEA ) {
@@ -93,7 +93,7 @@ public:
     }
 
     Nodo* stmt() {
-        log("stmt");
+        log( "stmt" );
         Nodo* nodo = nullptr;
         if( error ) return nullptr;
 
@@ -121,7 +121,7 @@ public:
     }
 
     Proposicion* if_stmt() {
-        log("if_stmt");
+        log( "if_stmt" );
         if( error ) return nullptr;
 
         if( lex.dameSimbolo() == "if" ) {
@@ -136,19 +136,36 @@ public:
         return nullptr;
     }
 
-    Proposicion* if_stmt_else() {
-        if( error ) return nullptr;
+    Else* if_stmt_else() {
+        log( "if_stmt_else" );
+        Else* pc = nullptr;
+        vector<Nodo*> vec;
+        if( !error ) {
+            if( lex.dameSimbolo() == "else" ) {
+                lex.sigSimbolo();
+                comprueba( DOS_PUNTOS );
 
-        if( lex.dameSimbolo() == "else" ) {
-            lex.sigSimbolo();
-            comprueba( DOS_PUNTOS );
-            return suite();
+                bool tabs = false;
+
+                comprueba( NUEVA_LINEA );
+                tabs = ( lex.dameTipo() == TABULADOR );
+
+                if( tabs ) comprueba( TABULADOR );
+                pc = new Else();
+                while( siguienteSuiteStmt() ) {
+                    Nodo* p = stmt();
+                    if( p != nullptr ) {
+                        pc->cuerpo.push_back( p );
+                    }
+                }
+                if( tabs ) comprueba( DESINDENTACION );
+            }
         }
-        return nullptr;
+        return pc;
     }
 
     Proposicion* while_stmt() {
-        log("while_stmt");
+        log( "while_stmt" );
         if( error ) return nullptr;
 
         if( lex.dameSimbolo() == "while" ) {
@@ -164,7 +181,7 @@ public:
     }
 
     Proposicion* print_stmt() {
-        log("print_stmt");
+        log( "print_stmt" );
         if( error ) return nullptr;
 
         if( lex.dameSimbolo() == "print" ) {
@@ -179,7 +196,7 @@ public:
     }
 
     Bloque* suite() {
-        log("suite");
+        log( "suite" );
         Bloque* pc = nullptr;
         vector<Nodo*> vec;
         if( !error ) {
@@ -188,12 +205,12 @@ public:
             comprueba( NUEVA_LINEA );
             tabs = ( lex.dameTipo() == TABULADOR );
 
-             if( tabs ) comprueba( TABULADOR );
+            if( tabs ) comprueba( TABULADOR );
             pc = new Bloque();
             while( siguienteSuiteStmt() ) {
                 Nodo* p = stmt();
                 if( p != nullptr ) {
-                   pc->cuerpo.push_back( p );
+                    pc->cuerpo.push_back( p );
                 }
             }
             if( tabs ) comprueba( DESINDENTACION );
@@ -210,7 +227,7 @@ public:
     }
 
     Expresion* expresion_stmt() {
-        log("expresion_stmt");
+        log( "expresion_stmt" );
         Expresion* exp = nullptr;
         if( !error ) {
             exp = expresion_de_asignacion();
@@ -219,7 +236,7 @@ public:
     }
 
     Expresion* expresion_de_asignacion() {
-        log("expresion_de_asignacion");
+        log( "expresion_de_asignacion" );
         Expresion* exp = nullptr;
         if( !error ) {
             exp = expresion_unaria();
@@ -253,7 +270,7 @@ public:
     }
 
     Expresion* expresion_logica_OR() {
-        log("expresion_logica_OR");
+        log( "expresion_logica_OR" );
         Expresion* exp = nullptr;
         if( !error ) {
             exp = expresion_logica_AND();
@@ -263,7 +280,7 @@ public:
     }
 
     void expresion_logica_OR_prima( Expresion* &exp ) {
-        log("expresion_logica_OR_prima");
+        log( "expresion_logica_OR_prima" );
         if( !error ) {
             if( lex.dameTipo() == LOGICO_OR ) {
                 lex.sigSimbolo();
@@ -274,7 +291,7 @@ public:
     }
 
     Expresion* expresion_logica_AND() {
-        log("expresion_logica_AND");
+        log( "expresion_logica_AND" );
         Expresion* exp = nullptr;
         if( !error ) {
             exp = expresion_de_igualdad();
@@ -284,7 +301,7 @@ public:
     }
 
     void expresion_logica_AND_prima( Expresion* &exp ) {
-        log("expresion_logica_AND_prima");
+        log( "expresion_logica_AND_prima" );
         if( !error ) {
             if( lex.dameTipo() == LOGICO_AND ) {
                 lex.sigSimbolo();
@@ -295,7 +312,7 @@ public:
     }
 
     Expresion* expresion_de_igualdad() {
-        log("expresion_de_igualdad");
+        log( "expresion_de_igualdad" );
         Expresion* exp = nullptr;
         if( !error ) {
             exp = expresion_relacional();
@@ -305,7 +322,7 @@ public:
     }
 
     void expresion_de_igualdad_prima( Expresion* &exp ) {
-        log("expresion_de_igualdad_prima");
+        log( "expresion_de_igualdad_prima" );
         if( !error ) {
             if( lex.dameTipo() == OP_IGUALDAD ) {
                 if( lex.dameSimbolo() == "==" ) {
@@ -321,7 +338,7 @@ public:
     }
 
     Expresion* expresion_relacional() {
-        log("expresion_relacional");
+        log( "expresion_relacional" );
         Expresion* exp = nullptr;
         if( !error ) {
             exp = expresion_aditiva();
@@ -331,7 +348,7 @@ public:
     }
 
     void expresion_relacional_prima( Expresion* &exp ) {
-        log("expresion_relacional_prima");
+        log( "expresion_relacional_prima" );
         if( !error ) {
             if( lex.dameTipo() == OP_RELACIONAL ) {
                 if( lex.dameSimbolo() == "<" ) {
@@ -353,7 +370,7 @@ public:
     }
 
     Expresion* expresion_aditiva() {
-        log("expresion_aditiva");
+        log( "expresion_aditiva" );
         Expresion* exp = nullptr;
         if( !error ) {
             exp = expresion_multiplicativa();
@@ -363,7 +380,7 @@ public:
     }
 
     void expresion_aditiva_prima( Expresion* &exp ) {
-        log("expresion_aditiva_prima");
+        log( "expresion_aditiva_prima" );
         if( !error ) {
             if( lex.dameTipo() == OP_ADITIVO ) {
                 if( lex.dameSimbolo() == "+" ) {
@@ -379,7 +396,7 @@ public:
     }
 
     Expresion* expresion_multiplicativa() {
-        log("expresion_multiplicativa");
+        log( "expresion_multiplicativa" );
         Expresion* exp = nullptr;
         if( !error ) {
             exp = expresion_unaria();
@@ -389,7 +406,7 @@ public:
     }
 
     void expresion_multiplicativa_prima( Expresion* &exp ) {
-        log("expresion_multiplicativa_prima");
+        log( "expresion_multiplicativa_prima" );
         if( !error ) {
             if( lex.dameTipo() == OP_MULTIPLICATIVO ) {
                 if( lex.dameSimbolo() == "*" ) {
@@ -408,7 +425,7 @@ public:
     }
 
     Expresion* expresion_unaria() {
-        log("expresion_unaria");
+        log( "expresion_unaria" );
         Expresion* exp = nullptr;
         if( !error ) {
             switch( lex.dameTipo() ) {
@@ -428,11 +445,11 @@ public:
         return exp;
     }
 
-    void log(string str){
+    void log( string str ) {
         cout << str << endl;
     }
     Expresion* expresion_primaria() {
-        log("expresion_primaria");
+        log( "expresion_primaria" );
         Expresion* exp = nullptr;
         if( !error ) {
             switch( lex.dameTipo() ) {
