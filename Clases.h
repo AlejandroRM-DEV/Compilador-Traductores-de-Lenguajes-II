@@ -5,6 +5,12 @@
 #include <iostream>
 #include <sstream>
 
+#include "TablaSimbolos.h"
+
+TablaSimbolos* TablaSimbolos::instancia = nullptr;
+
+int contador;
+
 using namespace std;
 
 class Nodo {
@@ -12,6 +18,8 @@ public:
     string simbolo;
     Nodo() {}
     virtual ~Nodo() {}
+    virtual TipoDato analizarTipo() = 0;
+    virtual string generarCodigo() = 0;
     virtual string toString() = 0;
 };
 
@@ -25,6 +33,8 @@ public:
         derecha = nullptr;
     }
 
+    TipoDato analizarTipo() = 0;
+
     virtual ~Expresion() {
         if( izquierda != nullptr ) {
             delete izquierda;
@@ -35,6 +45,7 @@ public:
     }
 
     string toString() = 0;
+    string generarCodigo() = 0;
 };
 
 class Identificador: public Expresion {
@@ -45,6 +56,15 @@ public:
 
     ~Identificador() {}
 
+    TipoDato analizarTipo() {
+        return TablaSimbolos::instance()->tipoSim( simbolo );
+    }
+
+    string generarCodigo() {
+        stringstream ss;
+        ss << "push " << simbolo << endl;
+        return ss.str();
+    }
     string toString() {
         stringstream ss;
         ss << "<ID>" << simbolo << "</ID>" << endl;
@@ -60,6 +80,14 @@ public:
 
     ~Entero() {}
 
+    TipoDato analizarTipo() {
+        return T_INT;
+    }
+    string generarCodigo() {
+        stringstream ss;
+        ss << "push " << simbolo << endl;
+        return ss.str();
+    }
     string toString() {
         stringstream ss;
         ss << "<ENTERO>" << simbolo << "</ENTERO>" << endl;
@@ -75,6 +103,14 @@ public:
 
     ~Real() {}
 
+    TipoDato analizarTipo() {
+        return T_FLOAT;
+    }
+    string generarCodigo() {
+        stringstream ss;
+        ss << "push " << simbolo << endl;
+        return ss.str();
+    }
     string toString() {
         stringstream ss;
         ss << "<REAL>" << simbolo << "</REAL>" << endl;
@@ -92,6 +128,16 @@ public:
 
     ~OR() {}
 
+    TipoDato analizarTipo() {
+        if( izquierda->analizarTipo() == derecha->analizarTipo() ) {
+            return izquierda->analizarTipo();
+        } else {
+            return T_ERROR;
+        }
+    }
+    string generarCodigo() {
+
+    }
     string toString() {
         stringstream ss;
         ss << "<EXPRESION value=\"||\">" << endl;
@@ -116,6 +162,16 @@ public:
 
     ~AND() {}
 
+    TipoDato analizarTipo() {
+        if( izquierda->analizarTipo() == derecha->analizarTipo() ) {
+            return izquierda->analizarTipo();
+        } else {
+            return T_ERROR;
+        }
+    }
+    string generarCodigo() {
+
+    }
     string toString() {
         stringstream ss;
         ss << "<EXPRESION value=\"&amp;&amp;\">" << endl;
@@ -140,9 +196,34 @@ public:
 
     ~Igual() {}
 
+    TipoDato analizarTipo() {
+        if( izquierda->analizarTipo() == derecha->analizarTipo() ) {
+            return izquierda->analizarTipo();
+        } else {
+            return T_ERROR;
+        }
+    }
+    string generarCodigo() {
+        stringstream ss, verdadero, fin;
+        verdadero << "VERDADERO" << ( contador++ );
+        fin << "FIN" << ( contador++ );
+
+        ss << izquierda->generarCodigo();
+        ss << derecha->generarCodigo();
+        ss << "pop ebx" << endl;
+        ss << "pop eax" << endl;
+        ss << "cmp eax, ebx" << endl;
+        ss << "je " << verdadero.str()  << endl;
+        ss << "push 0" << endl;
+        ss << "jmp " << fin.str() << endl;
+        ss << verdadero.str() << ":" << endl;
+        ss << "push 1" << endl;
+        ss << fin.str() << ":" << endl;
+        return ss.str();
+    }
     string toString() {
         stringstream ss;
-        ss << "<EXPRESION value=\"==\">" << endl;
+        ss << "<EXPRESION value=\"&lt;\">" << endl;
         if( izquierda != nullptr ) {
             ss << izquierda->toString( );
         }
@@ -164,9 +245,33 @@ public:
 
     ~Diferente() {}
 
-     string toString() {
+    TipoDato analizarTipo() {
+        if( izquierda->analizarTipo() == derecha->analizarTipo() ) {
+            return izquierda->analizarTipo();
+        } else {
+            return T_ERROR;
+        }
+    }
+    string generarCodigo() {
+        stringstream ss, verdadero, fin;
+        verdadero << "VERDADERO" << ( contador++ );
+        fin << "FIN" << ( contador++ );
+        ss << izquierda->generarCodigo();
+        ss << derecha->generarCodigo();
+        ss << "pop ebx" << endl;
+        ss << "pop eax" << endl;
+        ss << "cmp eax, ebx" << endl;
+        ss << "jne " << verdadero.str()  << endl;
+        ss << "push 0" << endl;
+        ss << "jmp " << fin.str() << endl;
+        ss << verdadero.str() << ":" << endl;
+        ss << "push 1" << endl;
+        ss << fin.str() << ":" << endl;
+        return ss.str();
+    }
+    string toString() {
         stringstream ss;
-        ss << "<EXPRESION value=\"!=\">" << endl;
+        ss << "<EXPRESION value=\"&lt;\">" << endl;
         if( izquierda != nullptr ) {
             ss << izquierda->toString( );
         }
@@ -188,6 +293,30 @@ public:
 
     ~Menor() {}
 
+    TipoDato analizarTipo() {
+        if( izquierda->analizarTipo() == derecha->analizarTipo() ) {
+            return izquierda->analizarTipo();
+        } else {
+            return T_ERROR;
+        }
+    }
+    string generarCodigo() {
+        stringstream ss, verdadero, fin;
+        verdadero << "VERDADERO" << ( contador++ );
+        fin << "FIN" << ( contador++ );
+        ss << izquierda->generarCodigo();
+        ss << derecha->generarCodigo();
+        ss << "pop ebx" << endl;
+        ss << "pop eax" << endl;
+        ss << "cmp eax, ebx" << endl;
+        ss << "jl " << verdadero.str()  << endl;
+        ss << "push 0" << endl;
+        ss << "jmp " << fin.str() << endl;
+        ss << verdadero.str() << ":" << endl;
+        ss << "push 1" << endl;
+        ss << fin.str() << ":" << endl;
+        return ss.str();
+    }
     string toString() {
         stringstream ss;
         ss << "<EXPRESION value=\"&lt;\">" << endl;
@@ -212,9 +341,33 @@ public:
 
     ~MenorIgual() {}
 
-     string toString() {
+    TipoDato analizarTipo() {
+        if( izquierda->analizarTipo() == derecha->analizarTipo() ) {
+            return izquierda->analizarTipo();
+        } else {
+            return T_ERROR;
+        }
+    }
+    string generarCodigo() {
+        stringstream ss, verdadero, fin;
+        verdadero << "VERDADERO" << ( contador++ );
+        fin << "FIN" << ( contador++ );
+        ss << izquierda->generarCodigo();
+        ss << derecha->generarCodigo();
+        ss << "pop ebx" << endl;
+        ss << "pop eax" << endl;
+        ss << "cmp eax, ebx" << endl;
+        ss << "jle " << verdadero.str()  << endl;
+        ss << "push 0" << endl;
+        ss << "jmp " << fin.str() << endl;
+        ss << verdadero.str() << ":" << endl;
+        ss << "push 1" << endl;
+        ss << fin.str() << ":" << endl;
+        return ss.str();
+    }
+    string toString() {
         stringstream ss;
-        ss << "<EXPRESION value=\"&lt;=\">" << endl;
+        ss << "<EXPRESION value=\"&lt;\">" << endl;
         if( izquierda != nullptr ) {
             ss << izquierda->toString( );
         }
@@ -236,9 +389,33 @@ public:
 
     ~Mayor() {}
 
-     string toString() {
+    TipoDato analizarTipo() {
+        if( izquierda->analizarTipo() == derecha->analizarTipo() ) {
+            return izquierda->analizarTipo();
+        } else {
+            return T_ERROR;
+        }
+    }
+    string generarCodigo() {
+        stringstream ss, verdadero, fin;
+        verdadero << "VERDADERO" << ( contador++ );
+        fin << "FIN" << ( contador++ );
+        ss << izquierda->generarCodigo();
+        ss << derecha->generarCodigo();
+        ss << "pop ebx" << endl;
+        ss << "pop eax" << endl;
+        ss << "cmp eax, ebx" << endl;
+        ss << "jg " << verdadero.str()  << endl;
+        ss << "push 0" << endl;
+        ss << "jmp " << fin.str() << endl;
+        ss << verdadero.str() << ":" << endl;
+        ss << "push 1" << endl;
+        ss << fin.str() << ":" << endl;
+        return ss.str();
+    }
+    string toString() {
         stringstream ss;
-        ss << "<EXPRESION value=\"&gt;\">" << endl;
+        ss << "<EXPRESION value=\"&lt;=\">" << endl;
         if( izquierda != nullptr ) {
             ss << izquierda->toString( );
         }
@@ -260,9 +437,33 @@ public:
 
     ~MayorIgual() {}
 
+    TipoDato analizarTipo() {
+        if( izquierda->analizarTipo() == derecha->analizarTipo() ) {
+            return izquierda->analizarTipo();
+        } else {
+            return T_ERROR;
+        }
+    }
+    string generarCodigo() {
+        stringstream ss, verdadero, fin;
+        verdadero << "VERDADERO" << ( contador++ );
+        fin << "FIN" << ( contador++ );
+        ss << izquierda->generarCodigo();
+        ss << derecha->generarCodigo();
+        ss << "pop ebx" << endl;
+        ss << "pop eax" << endl;
+        ss << "cmp eax, ebx" << endl;
+        ss << "jge " << verdadero.str()  << endl;
+        ss << "push 0" << endl;
+        ss << "jmp " << fin.str() << endl;
+        ss << verdadero.str() << ":" << endl;
+        ss << "push 1" << endl;
+        ss << fin.str() << ":" << endl;
+        return ss.str();
+    }
     string toString() {
         stringstream ss;
-        ss << "<EXPRESION value=\"&gt;=\">" << endl;
+        ss << "<EXPRESION value=\"&lt;\">" << endl;
         if( izquierda != nullptr ) {
             ss << izquierda->toString( );
         }
@@ -284,7 +485,24 @@ public:
 
     ~Suma() {}
 
-        string toString() {
+    TipoDato analizarTipo() {
+        if( izquierda->analizarTipo() == derecha->analizarTipo() ) {
+            return izquierda->analizarTipo();
+        } else {
+            return T_ERROR;
+        }
+    }
+    string generarCodigo() {
+        stringstream ss;
+        ss << izquierda->generarCodigo();
+        ss << derecha->generarCodigo();
+        ss << "pop ebx" << endl;
+        ss << "pop eax" << endl;
+        ss << "add eax, ebx" << endl;
+        ss << "push eax" << endl;
+        return ss.str();
+    }
+    string toString() {
         stringstream ss;
         ss << "<SUMA value=\"+\">" << endl;
         if( izquierda != nullptr ) {
@@ -308,6 +526,23 @@ public:
 
     ~Resta() {}
 
+    TipoDato analizarTipo() {
+        if( izquierda->analizarTipo() == derecha->analizarTipo() ) {
+            return izquierda->analizarTipo();
+        } else {
+            return T_ERROR;
+        }
+    }
+    string generarCodigo() {
+        stringstream ss;
+        ss << izquierda->generarCodigo();
+        ss << derecha->generarCodigo();
+        ss << "pop ebx" << endl;
+        ss << "pop eax" << endl;
+        ss << "sub eax, ebx" << endl;
+        ss << "push eax" << endl;
+        return ss.str();
+    }
     string toString() {
         stringstream ss;
         ss << "<SUMA value=\"-\">" << endl;
@@ -332,6 +567,24 @@ public:
 
     ~Multiplicacion() {}
 
+    TipoDato analizarTipo() {
+        if( izquierda->analizarTipo() == derecha->analizarTipo() ) {
+            return izquierda->analizarTipo();
+        } else {
+            return T_ERROR;
+        }
+    }
+    string generarCodigo() {
+        stringstream ss;
+        ss << izquierda->generarCodigo();
+        ss << derecha->generarCodigo();
+        ss << "pop ebx" << endl;
+        ss << "pop eax" << endl;
+        ss << "xor edx, edx" << endl;
+        ss << "imul ebx" << endl;
+        ss << "push eax" << endl;
+        return ss.str();
+    }
     string toString() {
         stringstream ss;
         ss << "<MULT value=\"*\">" << endl;
@@ -356,6 +609,24 @@ public:
 
     ~Division() {}
 
+    TipoDato analizarTipo() {
+        if( izquierda->analizarTipo() == derecha->analizarTipo() ) {
+            return izquierda->analizarTipo();
+        } else {
+            return T_ERROR;
+        }
+    }
+    string generarCodigo() {
+        stringstream ss;
+        ss << izquierda->generarCodigo();
+        ss << derecha->generarCodigo();
+        ss << "pop ebx" << endl;
+        ss << "pop eax" << endl;
+        ss << "xor edx, edx" << endl;
+        ss << "div ebx" << endl;
+        ss << "push eax" << endl;
+        return ss.str();
+    }
     string toString() {
         stringstream ss;
         ss << "<MULT value=\"/\">" << endl;
@@ -380,6 +651,25 @@ public:
 
     ~Modulo() {}
 
+    TipoDato analizarTipo() {
+        if( izquierda->analizarTipo() == derecha->analizarTipo() ) {
+            return izquierda->analizarTipo();
+        } else {
+            return T_ERROR;
+        }
+    }
+    string generarCodigo() {
+        stringstream ss;
+        ss << izquierda->generarCodigo();
+        ss << derecha->generarCodigo();
+        ss << "pop ebx" << endl;
+        ss << "pop eax" << endl;
+        ss << "xor edx, edx" << endl;
+        ss << "div ebx" << endl;
+        ss << "push edx" << endl;
+        return ss.str();
+
+    }
     string toString() {
         stringstream ss;
         ss << "<MULT value=\"%\">" << endl;
@@ -413,6 +703,27 @@ public:
         };
     }
 
+    TipoDato analizarTipo() {
+        TipoDato tipoExp = expresion->analizarTipo();
+        if( tipoExp != T_ERROR ) {
+            if( TablaSimbolos::instance()->existe( id->simbolo ) ) {
+                if( id->analizarTipo() != tipoExp ) {
+                    return T_ERROR;
+                }
+            } else {
+                TablaSimbolos::instance()->agregarVariable( id->simbolo, tipoExp );
+            }
+            return id->analizarTipo();
+        } else {
+            return T_ERROR;
+        }
+    }
+    string generarCodigo() {
+        stringstream ss;
+        ss << expresion->generarCodigo();
+        ss << "pop " << id->simbolo << endl;
+        return ss.str();
+    }
     string toString() {
         stringstream ss;
 
@@ -440,6 +751,17 @@ public:
         delete exp;
     }
 
+    TipoDato analizarTipo() {
+        return exp->analizarTipo();
+    }
+    string generarCodigo() {
+        stringstream ss;
+        ss << exp->generarCodigo();
+        ss << "pop eax" << endl;
+        ss << "neg eax" << endl;
+        ss << "push eax" << endl;
+        return ss.str();
+    }
     string toString() {
         stringstream ss;
         ss << "<SIGNO value=\"-\">" << endl;
@@ -464,6 +786,14 @@ public:
         delete exp;
     }
 
+    TipoDato analizarTipo() {
+        return exp->analizarTipo();
+    }
+    string generarCodigo() {
+        stringstream ss;
+        ss << exp->generarCodigo();
+        return ss.str();
+    }
     string toString() {
         stringstream ss;
         ss << "<SIGNO value=\"+\">" << endl;
@@ -480,7 +810,9 @@ class Proposicion: public Nodo {
 public:
     Proposicion() {}
     virtual ~Proposicion() {}
+    virtual TipoDato analizarTipo() = 0;
     virtual string toString() = 0;
+    virtual string generarCodigo() = 0;
 };
 
 class Else: public Proposicion {
@@ -496,11 +828,26 @@ public:
         }
     }
 
+    TipoDato analizarTipo() {
+        for( Nodo* n : cuerpo ) {
+            if( n->analizarTipo( ) == T_ERROR ) {
+                return T_ERROR;
+            }
+        }
+        return T_VACIO;
+    }
+    string generarCodigo() {
+        stringstream ss;
+        for( Nodo* d : cuerpo ) {
+            ss << d->generarCodigo();
+        }
+        return ss.str();
+    }
     string toString() {
         stringstream ss;
 
         ss << "<OTRO>" << endl;
-        for( Nodo* n: cuerpo ) {
+        for( Nodo* n : cuerpo ) {
             ss << n->toString();
         }
         ss << "</OTRO>" << endl;
@@ -530,6 +877,42 @@ public:
         }
     }
 
+    TipoDato analizarTipo() {
+        if( exp->analizarTipo() == T_ERROR ) {
+            return T_ERROR;
+        }
+        if( proIf != nullptr ) {
+            if( proIf->analizarTipo() == T_ERROR ) {
+                return T_ERROR;
+            }
+        }
+        if( proElse != nullptr ) {
+            if( proElse->analizarTipo() == T_ERROR ) {
+                return T_ERROR;
+            }
+        }
+        return T_VACIO;
+    }
+    string generarCodigo() {
+        stringstream ss, ciclo, fin, otro;
+        ciclo << "IF" << ( contador++ );
+        fin << "FIN" << ( contador++ );
+        otro << "ELSE" << ( contador++ );
+
+        ss << ciclo.str() << ": " << endl;
+        ss << exp->generarCodigo();
+        ss << "pop eax" << endl;
+        ss << "cmp eax, 1" << endl;
+        ss << "jne " << otro.str() << endl;
+        ss << proIf->generarCodigo();
+        ss << "jmp " << fin.str() << endl;
+        ss << otro.str() << ": " << endl;
+        if( proElse != nullptr ) {
+            ss << proElse->generarCodigo();
+        }
+        ss << fin.str() << ": " << endl;
+        return ss.str();
+    }
     string toString() {
         stringstream ss;
         ss << "<SI>" << endl;
@@ -537,7 +920,7 @@ public:
         ss << proIf->toString();
 
         if( proElse != nullptr ) {
-           ss << proElse->toString( );
+            ss << proElse->toString( );
         }
         ss << "</SI>" << endl;
         return ss.str();
@@ -556,12 +939,27 @@ public:
             delete nodo;
         }
     }
+    string generarCodigo() {
+        stringstream ss;
+        for( Nodo* d : cuerpo ) {
+            ss << d->generarCodigo();
+        }
+        return ss.str();
+    }
+    TipoDato analizarTipo() {
+        for( Nodo* n : cuerpo ) {
+            if( n->analizarTipo( ) == T_ERROR ) {
+                return T_ERROR;
+            }
+        }
+        return T_VACIO;
+    }
 
     string toString() {
         stringstream ss;
 
         ss << "<BLOQUE>" << endl;
-        for( Nodo* n: cuerpo ) {
+        for( Nodo* n : cuerpo ) {
             ss << n->toString();
         }
         ss << "</BLOQUE>" << endl;
@@ -581,6 +979,20 @@ public:
         delete exp;
     }
 
+    TipoDato analizarTipo() {
+        if( exp->analizarTipo( ) == T_ERROR ) {
+            return T_ERROR;
+        }
+        return T_VACIO;
+    }
+    string generarCodigo() {
+        stringstream ss;
+        ss << exp->generarCodigo();
+        ss << "pop eax" << endl;
+        ss << "print str$(eax)" << endl;
+        ss << "print chr$(13,10)" << endl;
+        return ss.str();
+    }
     string toString() {
         stringstream ss;
         ss << "<IMPRIME>" << endl;
@@ -611,6 +1023,40 @@ public:
             delete proElse;
         }
     }
+    string generarCodigo() {
+        stringstream ss, ciclo, fin, otro;
+        ciclo << "WHILE" << ( contador++ );
+        fin << "FIN" << ( contador++ );
+        otro << "ELSE" << ( contador++ );
+
+        ss << ciclo.str() << ": " << endl;
+        ss << exp->generarCodigo();
+        ss << "pop eax" << endl;
+        ss << "cmp eax, 1" << endl;
+        ss << "jne " << otro.str() << endl;
+        ss << proposicion->generarCodigo();
+        ss << "jmp " << ciclo.str() << endl;
+        ss << otro.str() << ": " << endl;
+        if( proElse != nullptr ) {
+            ss << proElse->generarCodigo();
+        }
+        ss << fin.str() << ": " << endl;
+        return ss.str();
+    }
+    TipoDato analizarTipo() {
+        if( exp->analizarTipo() == T_ERROR ) {
+            return T_ERROR;
+        }
+        if( proposicion->analizarTipo() == T_ERROR ) {
+            return T_ERROR;
+        }
+        if( proElse != nullptr ) {
+            if( proElse->analizarTipo() == T_ERROR ) {
+                return T_ERROR;
+            }
+        }
+        return T_VACIO;
+    }
 
     string toString() {
         stringstream ss;
@@ -618,13 +1064,12 @@ public:
         ss << exp->toString();
         ss << proposicion->toString( );
         if( proElse != nullptr ) {
-           ss << proElse->toString( );
+            ss << proElse->toString( );
         }
         ss << "</MIENTRAS>" << endl;
         return ss.str();
     }
 };
-
 
 class UnidadTraduccion: public Nodo {
 public:
@@ -637,6 +1082,46 @@ public:
             delete d;
         }
     }
+
+    TipoDato analizarTipo() {
+        for( Nodo* def : definiciones ) {
+            if( def->analizarTipo( ) == T_ERROR ) {
+                return T_ERROR;
+            }
+        }
+        return T_VACIO;
+    }
+    string generarCodigo() {
+        stringstream ss;
+        ss << ".486" << endl;
+        ss << ".model flat, stdcall" << endl;
+        ss << "option casemap :none" << endl;
+        ss << "include \\masm32\\include\\windows.inc" << endl;
+        ss << "include \\masm32\\macros\\macros.asm" << endl;
+        ss << "include \\masm32\\include\\masm32.inc" << endl;
+        ss << "include \\masm32\\include\\gdi32.inc" << endl;
+        ss << "include \\masm32\\include\\user32.inc" << endl;
+        ss << "include \\masm32\\include\\kernel32.inc" << endl;
+        ss << "includelib \\masm32\\lib\\masm32.lib" << endl;
+        ss << "includelib \\masm32\\lib\\gdi32.lib" << endl;
+        ss << "includelib \\masm32\\lib\\user32.lib" << endl;
+        ss << "includelib \\masm32\\lib\\kernel32.lib" << endl;
+        ss << ".data" << endl;
+        //Variables
+        for(string sim: TablaSimbolos::instance()->listaSim()){
+            ss << sim << " dword 0" << endl;
+        }
+        ss << ".code" << endl;
+        ss << "start:" << endl;
+        for( Nodo* d : definiciones ) {
+            ss << d->generarCodigo();
+        }
+        ss << "exit" << endl;
+        ss << "end start" << endl;
+
+        return ss.str();
+    }
+
     string toString() {
         stringstream ss;
         ss << "<PROGRAMA>" << endl;

@@ -35,6 +35,7 @@
 		<Unit filename="Clases.h" />
 		<Unit filename="Lexico.h" />
 		<Unit filename="Sintactico.h" />
+		<Unit filename="TablaSimbolos.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

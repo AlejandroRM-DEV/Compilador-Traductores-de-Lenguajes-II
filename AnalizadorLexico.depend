@@ -44,13 +44,65 @@
 	"Lexico.h"
 	"Clases.h"
 
-1460282497 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_3\lexico.h
+1460317731 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_3\lexico.h
 	<iostream>
 	<fstream>
 	<stack>
 
-1460316570 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_3\clases.h
+1460317495 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_3\clases.h
 	<vector>
 	<iostream>
 	<sstream>
+
+1461172287 source:c:\users\alesito\documents\programacion\c++\proyecto_tdlii_4\main.cpp
+	<iostream>
+	<fstream>
+	"Sintactico.h"
+
+1460316596 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_4\sintactico.h
+	"Lexico.h"
+	"Clases.h"
+
+1461172122 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_4\lexico.h
+	<iostream>
+	<fstream>
+	<stack>
+
+1461171455 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_4\clases.h
+	<vector>
+	<iostream>
+	<sstream>
+	"TablaSimbolos.h"
+
+1461171391 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_4\tablasimbolos.h
+	<iostream>
+	<iomanip>
+	<deque>
+	<vector>
+
+1461726619 source:c:\users\alesito\documents\programacion\c++\proyecto_tdlii_5\main.cpp
+	<iostream>
+	<fstream>
+	"Sintactico.h"
+
+1460316596 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_5\sintactico.h
+	"Lexico.h"
+	"Clases.h"
+
+1461172122 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_5\lexico.h
+	<iostream>
+	<fstream>
+	<stack>
+
+1461775621 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_5\clases.h
+	<vector>
+	<iostream>
+	<sstream>
+	"TablaSimbolos.h"
+
+1461775063 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_5\tablasimbolos.h
+	<iostream>
+	<iomanip>
+	<deque>
+	<vector>
 

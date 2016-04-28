@@ -12,10 +12,16 @@ int main() {
 
     salida.open( "salida.txt" );
     if( !sin.hayError() ) {
-        //cout << "Aceptado" << endl;
-        salida << nodo->toString();
+        if( nodo->analizarTipo() != T_ERROR ) {
+            cout << "Aceptado" << endl;
+            cout << nodo->generarCodigo();
+            salida << nodo->generarCodigo();;
+        } else {
+            cout << "Rechazado semantico" << endl;
+            salida << 0;
+        }
     } else {
-        //cout << "Rechazado" << endl;
+        cout << "Rechazado sintactico" << endl;
         salida << 0;
     }
     salida.close();

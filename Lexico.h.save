@@ -211,7 +211,7 @@ private:
 
 public:
     Lexico() {
-        archivo.open( "entrada4.txt" );
+        archivo.open( "entrada.txt" );
 
         if ( !archivo.is_open() ) {
             error = true;

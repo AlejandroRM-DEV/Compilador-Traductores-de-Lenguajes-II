@@ -12,10 +12,17 @@ int main() {
 
     salida.open( "salida.txt" );
     if( !sin.hayError() ) {
-        //cout << "Aceptado" << endl;
-        salida << nodo->toString();
+        if( nodo->analizarTipo() != T_ERROR ) {
+            cout << "Aceptado" << endl;
+            co
+            salida << 1;
+        } else {
+            //cout << "Rechazado semantico" << endl;
+            salida << 0;
+        }
+        //TablaSimbolos::instance()->print();
     } else {
-        cout << "Rechazado" << endl;
+        //cout << "Rechazado sintactico" << endl;
         salida << 0;
     }
     salida.close();
