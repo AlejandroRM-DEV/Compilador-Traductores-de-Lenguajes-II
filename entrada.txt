@@ -1,30 +1,7 @@
-a = 1
-while a <= 10:
-	print(a)
-	a = a + 1
+print((2--2)*4)
 
 
-if a >= 10:
-	print(1)
-else:
-	print(0)
+ 
 
 
-if a < 10:
-	print(1)
-else:
-	print(0)
 
-b = 1
-
-
-while b <= 10:
-	abc = 1
-	while abc <= 10:
-		if abc < 10:
-			print(-10)
-		else:
-			print(abc)
-		abc = abc + 1
-	print(b)
-	b = b + 1

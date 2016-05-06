@@ -80,7 +80,7 @@
 	<deque>
 	<vector>
 
-1461726619 source:c:\users\alesito\documents\programacion\c++\proyecto_tdlii_5\main.cpp
+1462491199 source:c:\users\alesito\documents\programacion\c++\proyecto_tdlii_5\main.cpp
 	<iostream>
 	<fstream>
 	"Sintactico.h"
@@ -94,7 +94,7 @@
 	<fstream>
 	<stack>
 
-1461775621 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_5\clases.h
+1462495046 c:\users\alesito\documents\programacion\c++\proyecto_tdlii_5\clases.h
 	<vector>
 	<iostream>
 	<sstream>
